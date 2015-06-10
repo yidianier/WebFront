@@ -27,8 +27,9 @@ $(function() {
 				if ( allowShake ) {
 					allowShake = false;
 	//				audio.play();
+					getCurrentLocation();
 					setTimeout(function() {
-						getNearInformation(getCurrentLocation(), function(){
+						getNearInformation(currentPosition, function(){
 							shakeEnd();
 						});
 					}, 500);
