@@ -29,7 +29,7 @@ $(function() {
 							shakeEnd();
 						});
 					}, 500);
-					window.location.href="myshake2_choice.html";
+					window.location.href="shake_choice.html";
 				};
 			};
 			lastX = x;
