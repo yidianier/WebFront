@@ -4,8 +4,6 @@ var data = dataSource;
 //缓存配置	//最小选择的条数 最大选择的条数
 var caches = {"minChoose" : 1, "maxChoose" : 1};
 
-var currentPosition = [];
-
 /*-----------common function-------------*/
 var bind = function( obj, evname, fn ){
 	if( obj.addEventListener ){
@@ -21,9 +19,10 @@ var getCurrentLocation = function() {
 	var geolocation = new BMap.Geolocation();
 	//异步 调用获取位置信息
 	geolocation.getCurrentPosition( function(r){
-		currentPosition = [];
-		currentPosition.push(r.point.lng);
-		currentPosition.push(r.point.lat);
+		caches.currentPosition = [r.point.lng, r.point.lat];
+		getNearInformation(caches.currentPosition, function(){
+			shakeEnd();
+		});
 	}, {enableHighAccuracy: true} );
 }
 
@@ -229,7 +228,7 @@ var getNearInformation = function ( currentPosition, callBack ) {
             if (guojiyingyu_distance[i] == guojiyingyu_oldDistance[j]) {
                 aGuojiyingyu.nearShopType.push(aGuojiyingyu.ShopType[j]);
                 aGuojiyingyu.nearShopName.push(aGuojiyingyu.ShopName[j]);
-				alert(aGuojiyingyu.nearShopName);
+	alert(aGuojiyingyu.nearShopName);
                 aGuojiyingyu.nearAddress.push(aGuojiyingyu.Address[j]);
                 aGuojiyingyu.nearPhone.push(aGuojiyingyu.Phone[j]);
                 aGuojiyingyu.nearUrl.push(aGuojiyingyu.Url[j]);
@@ -308,11 +307,8 @@ $(function() {
 				if ( allowShake ) {
 					allowShake = false;
 	//				audio.play();	
-					getCurrentLocation();
 					setTimeout(function() {
-						getNearInformation(currentPosition, function(){
-							shakeEnd();
-						});
+						getCurrentLocation();						
 					}, 500);
 					window.location.href="shake_choice.html";
 				};
