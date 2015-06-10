@@ -26,7 +26,7 @@ $(function() {
 					allowShake = false;
 	//				audio.play();
 					var cPosition = getCurrentLocation();
-					alert(cPosition);
+					alert("cposition"+cPosition);
 					setTimeout(function() {
 						var cPosition = getCurrentLocation();
 						getNearInformation(getCurrentLocation(), function(){
@@ -87,7 +87,7 @@ $(function() {
 $(function() {
 	var webParam=getUrlParam("webParam");//这里获取fileData的值
 	var kxdParam=getUrlParam("kxdParam");//这里获取fileData的值
-	alert(caches.currentPosition);
+	alert(getCurrentLocation());
 	
 	if (webParam){
 		var point = ['121', '31'];
@@ -138,7 +138,8 @@ var getCurrentLocation = function() {
 	//异步 调用获取位置信息
 	geolocation.getCurrentPosition( function(r){
 		//caches.currentPosition = [r.point.lng, r.point.lat];
-		currentPosition = [121, 31];
+		currentPosition.push(r.point.lng);
+		currentPosition.push(r.point.lat);
 	}.bind(this), {enableHighAccuracy: true} );
 	
 	return currentPosition;
