@@ -5,123 +5,7 @@ var data = dataSource;
 var caches = {"minChoose" : 1, "maxChoose" : 1};
 
 var currentPosition = [];
-/*-----------shake-------------*/
-/* shake entrance */
-$(function() {
-	allowShake = true;
-	
-	//缓存 解析的所有公司信息
-	getAllInformation(data);	//解析当前所有的学校位置到caches
-	getCurrentLocation();
-	
-	if (window.DeviceMotionEvent) {
-		var speed = 20;
-		var x = y = z = lastX = lastY = lastZ = 0;
-		var shakePhone = document.getElementById("shake-phone");
-		//移动端的位移感应配置监听devicemotion
-		window.addEventListener('devicemotion', function(){
-			var acceleration = event.accelerationIncludingGravity;
-			x = acceleration.x;
-			y = acceleration.y;
-			if (Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed) {
-				//摇一摇结束后
-				if ( allowShake ) {
-					allowShake = false;
-	//				audio.play();
-					setTimeout(function() {
-						getNearInformation(currentPosition, function(){
-							shakeEnd();
-						});
-					}, 500);
-					window.location.href="shake_choice.html";
-				};
-			};
-			lastX = x;
-			lastY = y;
-		}, false);
-	} else {
-		alert('您的手机暂不支持摇一摇功能！');
-	};
-});
 
-var shakeEnd = function() {
-	alert(currentPosition[0]);
-	alert(currentPosition[1]);
-	//web
-	var guoji = caches.guojiyingyu;
-
-	var web_eng = document.getElementById("web-eng");
-	var web_eng_address = document.getElementById("web-eng-address");
-	var web_eng_distance = document.getElementById("web-eng-distance");
-
-	web_eng.innerHTML = subString(guoji.nearShopName[0], 18);
-	web_eng_address.innerHTML = subString(guoji.nearAddress[0], 12);
-	web_eng_distance.innerHTML = getKM(guoji.nearDistance[0]);
-
-	//kxd
-	var kxd = caches.kaixindou;
-
-	var kxd_eng = document.getElementById("kxd-eng");
-	var kxd_eng_address = document.getElementById("kxd-eng-address");
-	var kxd_eng_distance = document.getElementById("kxd-eng-distance");
-
-	kxd_eng.innerHTML = subString(kxd.nearShopName[0], 18);
-	kxd_eng_address.innerHTML = subString(kxd.nearAddress[0], 12);
-	kxd_eng_distance.innerHTML = getKM(kxd.nearDistance[0]);
-};
-
-/*-----------shake choice-------------*/
-/* shake_choice entrance */
-$(function() {
-	$("#web-link").click(function() {
-		window.location.href = "shake_map.html?webParam=web";
-	});
-	$("#kxd-link").click(function() {
-		window.location.href = "shake_map.html?kxdParam=kxd";
-	});
-	$("#hwj-link").click(function() {
-		window.location.href = "#";
-	});
-});
-
-/*-----------shake map-------------*/
-/* shake_map entrance */
-$(function() {
-	var webParam=getUrlParam("webParam");//这里获取fileData的值
-	var kxdParam=getUrlParam("kxdParam");//这里获取fileData的值
-	
-	if (webParam){
-		var point = ['121', '31'];
-		updateMap(point);
-	}
-	if (kxdParam){
-		updateMap(caches.currentPosition);
-	}
-});
-
-var getUrlParam = function( param ) {
-	var reg = new RegExp("(^|&)" + param + "=([^&]*)(&|$)", "i"); 
-	var r = window.location.search.substr(1).match(reg);
-	if (r != null) return unescape(r[2]); return null;
-};
-
-var updateMap = function( aPosition ) {
-	var map = new BMap.Map("webmap");
-	//清除之前所有标注 
-	var allOverlay = map.getOverlays();
-	for (var i = 0; i < allOverlay.length; i++){
-		map.removeOverlay(allOverlay[i]);
-	};
-	
-	//创建标注
-	var mapPoint = new BMap.Point(aPosition[0], aPosition[1]);
-	var marker = new BMap.Marker( mapPoint );
-		
-	map.addOverlay( marker );
-	//地图显示
-	map.centerAndZoom(mapPoint, 15); 
-	map.panTo( mapPoint );
-};
 /*-----------common function-------------*/
 var bind = function( obj, evname, fn ){
 	if( obj.addEventListener ){
@@ -141,7 +25,7 @@ var getCurrentLocation = function() {
 		currentPosition.push(r.point.lng);
 		currentPosition.push(r.point.lat);
 	}, {enableHighAccuracy: true} );	
-	alert("test"+currenPosition[0]);
+	alert("test"+currentPosition[0]);
 }
 
 var subString = function( str, len ) {
@@ -400,4 +284,122 @@ var shakeStart = function () {//摇一摇一开始立即执行该函数
 
 var shakeCallback = function ( iCount ) {//摇一摇更新数据之后执行该函数
     //动画部分 结束后要做的事情
+};
+
+/*-----------shake-------------*/
+/* shake entrance */
+$(function() {
+	allowShake = true;
+	
+	//缓存 解析的所有公司信息
+	getAllInformation(data);	//解析当前所有的学校位置到caches
+	getCurrentLocation();
+	
+	if (window.DeviceMotionEvent) {
+		var speed = 20;
+		var x = y = z = lastX = lastY = lastZ = 0;
+		var shakePhone = document.getElementById("shake-phone");
+		//移动端的位移感应配置监听devicemotion
+		window.addEventListener('devicemotion', function(){
+			var acceleration = event.accelerationIncludingGravity;
+			x = acceleration.x;
+			y = acceleration.y;
+			if (Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed) {
+				//摇一摇结束后
+				if ( allowShake ) {
+					allowShake = false;
+	//				audio.play();
+					setTimeout(function() {
+						getNearInformation(currentPosition, function(){
+							shakeEnd();
+						});
+					}, 500);
+					window.location.href="shake_choice.html";
+				};
+			};
+			lastX = x;
+			lastY = y;
+		}, false);
+	} else {
+		alert('您的手机暂不支持摇一摇功能！');
+	};
+});
+
+var shakeEnd = function() {
+	alert(currentPosition[0]);
+	alert(currentPosition[1]);
+	//web
+	var guoji = caches.guojiyingyu;
+
+	var web_eng = document.getElementById("web-eng");
+	var web_eng_address = document.getElementById("web-eng-address");
+	var web_eng_distance = document.getElementById("web-eng-distance");
+
+	web_eng.innerHTML = subString(guoji.nearShopName[0], 18);
+	web_eng_address.innerHTML = subString(guoji.nearAddress[0], 12);
+	web_eng_distance.innerHTML = getKM(guoji.nearDistance[0]);
+
+	//kxd
+	var kxd = caches.kaixindou;
+
+	var kxd_eng = document.getElementById("kxd-eng");
+	var kxd_eng_address = document.getElementById("kxd-eng-address");
+	var kxd_eng_distance = document.getElementById("kxd-eng-distance");
+
+	kxd_eng.innerHTML = subString(kxd.nearShopName[0], 18);
+	kxd_eng_address.innerHTML = subString(kxd.nearAddress[0], 12);
+	kxd_eng_distance.innerHTML = getKM(kxd.nearDistance[0]);
+};
+
+/*-----------shake choice-------------*/
+/* shake_choice entrance */
+$(function() {
+	$("#web-link").click(function() {
+		window.location.href = "shake_map.html?webParam=web";
+	});
+	$("#kxd-link").click(function() {
+		window.location.href = "shake_map.html?kxdParam=kxd";
+	});
+	$("#hwj-link").click(function() {
+		window.location.href = "#";
+	});
+});
+
+/*-----------shake map-------------*/
+/* shake_map entrance */
+$(function() {
+	var webParam=getUrlParam("webParam");//这里获取fileData的值
+	var kxdParam=getUrlParam("kxdParam");//这里获取fileData的值
+	
+	if (webParam){
+		var point = ['121', '31'];
+		updateMap(point);
+	}
+	if (kxdParam){
+		updateMap(caches.currentPosition);
+	}
+});
+
+var getUrlParam = function( param ) {
+	var reg = new RegExp("(^|&)" + param + "=([^&]*)(&|$)", "i"); 
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null) return unescape(r[2]); return null;
+};
+
+var updateMap = function( aPosition ) {
+	var map = new BMap.Map("webmap");
+	//清除之前所有标注 
+	var allOverlay = map.getOverlays();
+	for (var i = 0; i < allOverlay.length; i++){
+		map.removeOverlay(allOverlay[i]);
+	};
+	
+	//创建标注
+	var mapPoint = new BMap.Point(aPosition[0], aPosition[1]);
+	var marker = new BMap.Marker( mapPoint );
+		
+	map.addOverlay( marker );
+	//地图显示
+	map.centerAndZoom(mapPoint, 15); 
+	map.panTo( mapPoint );
 };
