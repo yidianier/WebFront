@@ -3,6 +3,8 @@ var allowShake = true;
 var data = dataSource;
 //缓存配置	//最小选择的条数 最大选择的条数
 var caches = {"minChoose" : 1, "maxChoose" : 1};
+
+var currentPosition = [];
 /*-----------shake-------------*/
 /* shake entrance */
 $(function() {
@@ -25,10 +27,7 @@ $(function() {
 				if ( allowShake ) {
 					allowShake = false;
 	//				audio.play();
-					var cPosition = getCurrentLocation();
-					alert("cposition"+cPosition);
 					setTimeout(function() {
-						var cPosition = getCurrentLocation();
 						getNearInformation(getCurrentLocation(), function(){
 							shakeEnd();
 						});
@@ -45,6 +44,7 @@ $(function() {
 });
 
 var shakeEnd = function() {
+	alert(currentPosition);
 	//web
 	var guoji = caches.guojiyingyu;
 
@@ -87,7 +87,7 @@ $(function() {
 $(function() {
 	var webParam=getUrlParam("webParam");//这里获取fileData的值
 	var kxdParam=getUrlParam("kxdParam");//这里获取fileData的值
-	alert(getCurrentLocation());
+	alert("1"+currentPosition);
 	
 	if (webParam){
 		var point = ['121', '31'];
@@ -134,17 +134,10 @@ var bind = function( obj, evname, fn ){
 
 var getCurrentLocation = function() {
 	var geolocation = new BMap.Geolocation();
-	var currentPosition = [];
 	//异步 调用获取位置信息
 	geolocation.getCurrentPosition( function(r){
-		//caches.currentPosition = [r.point.lng, r.point.lat];
-		alert("r.lng"+r.point.lng);
-		alert("r.point"+r.point);
-		currentPosition.push(r.point.lng);
-		currentPosition.push(r.point.lat);
-	}.bind(this), {enableHighAccuracy: true} );
-	
-	return currentPosition;
+		currentPosition = [r.point.lng, r.point.lat];
+	}.bind(this), {enableHighAccuracy: true} );	
 }
 
 var subString = function( str, len ) {
