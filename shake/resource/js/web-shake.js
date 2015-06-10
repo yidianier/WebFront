@@ -24,8 +24,7 @@ var getCurrentLocation = function() {
 		currentPosition = [];
 		currentPosition.push(r.point.lng);
 		currentPosition.push(r.point.lat);
-	}, {enableHighAccuracy: true} );	
-	alert("test"+currentPosition[0]);
+	}, {enableHighAccuracy: true} );
 }
 
 var subString = function( str, len ) {
@@ -230,6 +229,7 @@ var getNearInformation = function ( currentPosition, callBack ) {
             if (guojiyingyu_distance[i] == guojiyingyu_oldDistance[j]) {
                 aGuojiyingyu.nearShopType.push(aGuojiyingyu.ShopType[j]);
                 aGuojiyingyu.nearShopName.push(aGuojiyingyu.ShopName[j]);
+				alert(aGuojiyingyu.nearShopName);
                 aGuojiyingyu.nearAddress.push(aGuojiyingyu.Address[j]);
                 aGuojiyingyu.nearPhone.push(aGuojiyingyu.Phone[j]);
                 aGuojiyingyu.nearUrl.push(aGuojiyingyu.Url[j]);
@@ -293,7 +293,6 @@ $(function() {
 	
 	//缓存 解析的所有公司信息
 	getAllInformation(data);	//解析当前所有的学校位置到caches
-	getCurrentLocation();
 	
 	if (window.DeviceMotionEvent) {
 		var speed = 20;
@@ -308,7 +307,8 @@ $(function() {
 				//摇一摇结束后
 				if ( allowShake ) {
 					allowShake = false;
-	//				audio.play();
+	//				audio.play();	
+					getCurrentLocation();
 					setTimeout(function() {
 						getNearInformation(currentPosition, function(){
 							shakeEnd();
@@ -330,11 +330,11 @@ var shakeEnd = function() {
 	alert(currentPosition[1]);
 	//web
 	var guoji = caches.guojiyingyu;
-
+	alert(guoji);
 	var web_eng = document.getElementById("web-eng");
 	var web_eng_address = document.getElementById("web-eng-address");
 	var web_eng_distance = document.getElementById("web-eng-distance");
-
+alert(guoji.nearShopName[0]);
 	web_eng.innerHTML = subString(guoji.nearShopName[0], 18);
 	web_eng_address.innerHTML = subString(guoji.nearAddress[0], 12);
 	web_eng_distance.innerHTML = getKM(guoji.nearDistance[0]);
@@ -354,6 +354,14 @@ var shakeEnd = function() {
 /*-----------shake choice-------------*/
 /* shake_choice entrance */
 $(function() {
+	
+						getCurrentLocation();
+					setTimeout(function() {
+						getNearInformation(currentPosition, function(){
+							shakeEnd();
+						});
+					}, 500);
+	
 	$("#web-link").click(function() {
 		window.location.href = "shake_map.html?webParam=web";
 	});
