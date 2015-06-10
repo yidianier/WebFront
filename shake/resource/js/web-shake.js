@@ -45,7 +45,8 @@ $(function() {
 });
 
 var shakeEnd = function() {
-	alert(currentPosition);
+	alert(currentPosition[0]);
+	alert(currentPosition[1]);
 	//web
 	var guoji = caches.guojiyingyu;
 
@@ -88,7 +89,6 @@ $(function() {
 $(function() {
 	var webParam=getUrlParam("webParam");//这里获取fileData的值
 	var kxdParam=getUrlParam("kxdParam");//这里获取fileData的值
-	alert("1"+currentPosition);
 	
 	if (webParam){
 		var point = ['121', '31'];
@@ -137,9 +137,11 @@ var getCurrentLocation = function() {
 	var geolocation = new BMap.Geolocation();
 	//异步 调用获取位置信息
 	geolocation.getCurrentPosition( function(r){
+		currentPosition = [];
 		currentPosition.push(r.point.lng);
-		currentPosition.push(r.point.lat];
+		currentPosition.push(r.point.lat);
 	}, {enableHighAccuracy: true} );	
+	alert("test"+currenPosition[0]);
 }
 
 var subString = function( str, len ) {
