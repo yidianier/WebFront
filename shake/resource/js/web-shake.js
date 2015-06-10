@@ -2,10 +2,11 @@
 var allowShake = true;
 var data = dataSource;
 //缓存配置	//最小选择的条数 最大选择的条数
-var caches = {"minChoose" : 1, "maxChoose" : 1};
+var caches = {"minChoose" : 1, "maxChoose" : 1, "currentPosition" : ""};
 /*-----------shake-------------*/
 /* shake entrance */
 $(function() {
+	allowShake = true;
 	
 	//缓存 解析的所有公司信息
 	getAllInformation(data);	//解析当前所有的学校位置到caches
@@ -37,7 +38,7 @@ $(function() {
 		}, false);
 	} else {
 		alert('您的手机暂不支持摇一摇功能！');
-	}; 
+	};
 });
 
 var shakeEnd = function() {
@@ -83,7 +84,7 @@ $(function() {
 $(function() {
 	var webParam=getUrlParam("webParam");//这里获取fileData的值
 	var kxdParam=getUrlParam("kxdParam");//这里获取fileData的值
-	//alert(caches.currentPosition);
+	alert(caches.currentPosition);
 	
 	if (webParam){
 		var point = ['121', '31'];
@@ -93,10 +94,11 @@ $(function() {
 		updateMap(caches.currentPosition);
 	}
 });
+
 var getUrlParam = function( param ) {
 	var reg = new RegExp("(^|&)" + param + "=([^&]*)(&|$)", "i"); 
-	var r = window.location.search.substr(1).match(reg); 
-	if (r != null) return unescape(r[2]); return null; 
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null) return unescape(r[2]); return null;
 };
 
 var updateMap = function( aPosition ) {
