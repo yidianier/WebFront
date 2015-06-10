@@ -25,8 +25,11 @@ $(function() {
 				if ( allowShake ) {
 					allowShake = false;
 	//				audio.play();
+					var cPosition = getCurrentLocation();
+					alert(cPosition);
 					setTimeout(function() {
 						getNearInformation(getCurrentLocation(), function(){
+							alert("shake end");
 							shakeEnd();
 						});
 					}, 500);
@@ -42,6 +45,7 @@ $(function() {
 });
 
 var shakeEnd = function() {
+	alert(123);
 	//web
 	var guoji = caches.guojiyingyu;
 
