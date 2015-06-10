@@ -2,7 +2,7 @@
 var allowShake = true;
 var data = dataSource;
 //缓存配置	//最小选择的条数 最大选择的条数
-var caches = {"minChoose" : 1, "maxChoose" : 1, "currentPosition" : ""};
+var caches = {"minChoose" : 1, "maxChoose" : 1};
 /*-----------shake-------------*/
 /* shake entrance */
 $(function() {
@@ -28,8 +28,8 @@ $(function() {
 					var cPosition = getCurrentLocation();
 					alert(cPosition);
 					setTimeout(function() {
+						var cPosition = getCurrentLocation();
 						getNearInformation(getCurrentLocation(), function(){
-							alert("shake end");
 							shakeEnd();
 						});
 					}, 500);
@@ -45,7 +45,6 @@ $(function() {
 });
 
 var shakeEnd = function() {
-	alert(123);
 	//web
 	var guoji = caches.guojiyingyu;
 
@@ -71,7 +70,7 @@ var shakeEnd = function() {
 
 /*-----------shake choice-------------*/
 /* shake_choice entrance */
-$(function() {	
+$(function() {
 	$("#web-link").click(function() {
 		window.location.href = "shake_map.html?webParam=web";
 	});
@@ -133,13 +132,16 @@ var bind = function( obj, evname, fn ){
 	};
 };
 
-var getCurrentLocation = function() {	
+var getCurrentLocation = function() {
 	var geolocation = new BMap.Geolocation();
+	var currentPosition = [];
 	//异步 调用获取位置信息
 	geolocation.getCurrentPosition( function(r){
-		caches.currentPosition = [r.point.lng, r.point.lat];
-		return caches.currentPosition;
+		//caches.currentPosition = [r.point.lng, r.point.lat];
+		currentPosition = [121, 31];
 	}.bind(this), {enableHighAccuracy: true} );
+	
+	return currentPosition;
 }
 
 var subString = function( str, len ) {
@@ -395,6 +397,7 @@ var listEvent = function () {
 var shakeStart = function () {//摇一摇一开始立即执行该函数
     allowShake = false;
 };
+
 var shakeCallback = function ( iCount ) {//摇一摇更新数据之后执行该函数
     //动画部分 结束后要做的事情
 };
