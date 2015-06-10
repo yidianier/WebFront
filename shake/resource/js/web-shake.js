@@ -12,6 +12,7 @@ $(function() {
 	
 	//缓存 解析的所有公司信息
 	getAllInformation(data);	//解析当前所有的学校位置到caches
+	getCurrentLocation();
 	
 	if (window.DeviceMotionEvent) {
 		var speed = 20;
@@ -27,7 +28,6 @@ $(function() {
 				if ( allowShake ) {
 					allowShake = false;
 	//				audio.play();
-					getCurrentLocation();
 					setTimeout(function() {
 						getNearInformation(currentPosition, function(){
 							shakeEnd();
