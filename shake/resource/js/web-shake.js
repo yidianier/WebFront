@@ -138,6 +138,8 @@ var getCurrentLocation = function() {
 	//异步 调用获取位置信息
 	geolocation.getCurrentPosition( function(r){
 		//caches.currentPosition = [r.point.lng, r.point.lat];
+		alert("r.lng"+r.point.lng);
+		alert("r.point"+r.point);
 		currentPosition.push(r.point.lng);
 		currentPosition.push(r.point.lat);
 	}.bind(this), {enableHighAccuracy: true} );
