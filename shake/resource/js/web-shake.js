@@ -137,8 +137,9 @@ var getCurrentLocation = function() {
 	var geolocation = new BMap.Geolocation();
 	//异步 调用获取位置信息
 	geolocation.getCurrentPosition( function(r){
-		currentPosition = [r.point.lng, r.point.lat];
-	}.bind(this), {enableHighAccuracy: true} );	
+		currentPosition.push(r.point.lng);
+		currentPosition.push(r.point.lat];
+	}, {enableHighAccuracy: true} );	
 }
 
 var subString = function( str, len ) {
