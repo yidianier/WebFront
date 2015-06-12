@@ -235,6 +235,35 @@ body {
 }
 /* myshake_map -- */
 
+/* myshake nav and return */
+.shake-return-map,
+.shake-return-choice {
+	position: fixed;
+	top: 6%;
+	left: 8%;
+	width: 74px;
+	height: 74px;
+	z-index: 6;
+	background: url(../image/back_ico.png) no-repeat;
+
+	/*ie6*/
+	_position:absolute;
+	_bottom:auto;
+}
+.shake-nav {
+	position: fixed;
+	bottom: 25%;
+	left: 70%;
+	width: 74px;
+	height: 74px;
+	z-index: 6;
+	background: url(../image/nav.png) no-repeat;
+
+	/*ie6*/
+	_position:absolute;
+	_bottom:auto;
+}
+
 /* -- css animation */
 @keyframes shake-hands {
 	0% {

@@ -7,18 +7,51 @@
 <meta name="description" content="韦博国际英语" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<link rel="stylesheet"  type="text/css"  href="resource/css/web-shake.css"  />
+<link rel="stylesheet"  type="text/css"  href="css/web-shake.css"  />
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
-<script type="text/javascript" src="resource/js/jquery-1.7.2.js"></script>
-<script type="text/javascript" src="resource/js/dataSource.js"></script>
-<script type="text/javascript" src="resource/js/web-shake.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="js/dataSource.js"></script>
+<script type="text/javascript" src="js/shake.js"></script>
 </head>
 <body>
 	<div class="container">
-		<img id="shake-phone" class="shake-phone" src="resource/image/shake_phone.png" />
-		<img class="shake-text" src="resource/image/shake_text.png" />
+		<img id="shake-phone" class="shake-phone" src="image/shake_phone.png" />
+		<img class="shake-text" src="image/shake_text.png" />
 		<div class="shake-tips">找出你身边的英语学校</div>
-		<img class="shake-cloud" src="resource/image/shake_cloud.png" />
+		<img class="shake-cloud" src="image/shake_cloud.png" />
+		<div id="hidden-map"></div>
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+    allowShake = true;
+		
+	var hidden_map = new BMap.Map("hidden-map");
+	var point = new BMap.Point(121,31);
+	hidden_map.centerAndZoom(point,12);
+	
+    if (window.DeviceMotionEvent) {
+        var speed = 20;
+        var x = y = z = lastX = lastY = lastZ = 0;
+        var shakePhone = document.getElementById("shake-phone");
+        //移动端的位移感应配置监听devicemotion
+        window.addEventListener('devicemotion', function(){
+            var acceleration = event.accelerationIncludingGravity;
+            x = acceleration.x;
+            y = acceleration.y;
+            if (Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed) {
+                //摇一摇结束后
+                if ( allowShake ) {
+                    //allowShake = false;
+    //              audio.play();
+					isShake = true;
+                    getLocation();
+                };
+            };
+            lastX = x;
+            lastY = y;
+        }, false);
+    } else {
+        alert('您的手机暂不支持摇一摇功能！');
+    };
+</script>

@@ -7,40 +7,47 @@
 <meta name="description" content="韦博国际英语" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<link rel="stylesheet"  type="text/css"  href="resource/css/web-shake.css" />
+<link rel="stylesheet"  type="text/css"  href="css/web-shake.css" />
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
-<script type="text/javascript" src="resource/js/jquery-1.7.2.js"></script>
-<script type="text/javascript" src="resource/js/dataSource.js"></script>
-<script type="text/javascript" src="resource/js/web-shake.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="js/dataSource.js"></script>
+<script type="text/javascript" src="js/shake.js"></script>
 </head>
 
 <body class="map-body">
 	<div id="webmap"></div>
 	<div class="shake-map">
 		<div class="shake-map-info clearfix">
-			<div class="shake-map-info-l">距离&nbsp;<span class="dis-number">0.2</span>&nbsp;公里</div>
+			<div class="shake-map-info-l">距离&nbsp;<span class="dis-number" id="dis-number">0.2</span>&nbsp;公里</div>
 			<span class="map-info-line"></span>
 			<div class="shake-map-info-r">				
-				<div class="map-info-name">韦博国际英语</div>
-				<div class="map-info-address">衡山路922号建汇大厦35楼</div>
+				<div class="map-info-name" id="map-info-name">韦博国际英语</div>
+				<div class="map-info-address" id="map-info-address">衡山路922号建汇大厦35楼</div>
 			</div>
 		</div>
 		<div class="shake-map-link clearfix">
 			<div class="shake-map-link-item">
-				<img class="service-icon" src="resource/image/service_site.png" />
+				<img class="service-icon" src="image/service_site.png" />
 				<div class="service-text">站点详情</div>
 			</div>
 			<div class="shake-map-link-item">
-				<img class="service-icon" src="resource/image/service_phone.png" />
+				<img class="service-icon" src="image/service_phone.png" />
 				<div class="service-text">客服电话</div>
 			</div>
 			<div class="shake-map-link-item">
-				<img class="service-icon" src="resource/image/service_online.png" />
+				<img class="service-icon" src="image/service_online.png" />
 				<div class="service-text">在线客服</div>
 			</div>
 		</div>
 	</div>
-	<div class="shake-return"></div>
+	<div class="shake-return-map"></div>
+	<div class="shake-nav"></div>
+	<div id="hidden-map"></div>
 </div>
 </body>
 </html>
+<script type="text/javascript">
+	var hidden_map = new BMap.Map("hidden-map");
+	var point = new BMap.Point(121,31);
+	hidden_map.centerAndZoom(point,12);
+</script>

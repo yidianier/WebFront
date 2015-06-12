@@ -7,19 +7,19 @@
 <meta name="description" content="韦博国际英语" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<link rel="stylesheet"  type="text/css"  href="resource/css/web-shake.css"  />
+<link rel="stylesheet"  type="text/css"  href="css/web-shake.css"  />
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
-<script type="text/javascript" src="resource/js/jquery-1.7.2.js"></script>
-<script type="text/javascript" src="resource/js/dataSource.js"></script>
-<script type="text/javascript" src="resource/js/web-shake.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="js/dataSource.js"></script>
+<script type="text/javascript" src="js/shake.js"></script>
 </head>
 
 <body>
 	<div class="container">
-		<img class="shake-tag" src="resource/image/shake_tag.png" />
+		<img class="shake-tag" src="image/shake_tag.png" />
 		<div class="shake-list">
 			<a id="web-link">
-			<img id="web-link" class="shake-tag-back" src="resource/image/box_bg_wb.png" />
+			<img id="web-link" class="shake-tag-back" src="image/box_bg_wb.png" />
 			<div class="shake-link-info">
 				<div class="link-name" id="web-eng">韦博国际英语</div>
 				<div class="link-address" id="web-eng-address">衡山路922号建汇大厦35楼</div>
@@ -29,7 +29,7 @@
 		</div>
 		<div class="shake-list">
 			<a id="kxd-link" >
-			<img class="shake-tag-back" src="resource/image/box_bg_kxd.png" />
+			<img class="shake-tag-back" src="image/box_bg_kxd.png" />
 			<div class="shake-link-info">
 				<div class="link-name" id="kxd-eng">韦博国际英语</div>
 				<div class="link-address" id="kxd-eng-address">衡山路922号建汇大厦35楼</div>
@@ -39,7 +39,7 @@
 		</div>
 		<div class="shake-list">
 			<a id="hwj-link">
-			<img id="hwj-link" class="shake-tag-back" src="resource/image/box_bg_wb.png" />
+			<img id="hwj-link" class="shake-tag-back" src="image/box_bg_wb.png" />
 			<div class="shake-link-info">
 				<div class="link-name" id="hwj-eng">韦博国际英语</div>
 				<div class="link-address" id="hwj-eng-address">衡山路922号建汇大厦35楼</div>
@@ -47,7 +47,16 @@
 			</div>
 			</a>
 		</div>
-		<img class="shake-cloud" src="resource/image/shake_cloud.png" />
+		<img class="shake-cloud" src="image/shake_cloud.png" />	
+		<div class="shake-return-choice"></div>		
+		<div id="hidden-map"></div>
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+	var hidden_map = new BMap.Map("hidden-map");
+	var point = new BMap.Point(121,31);
+	hidden_map.centerAndZoom(point,12);
+	
+	window.onload = shakeEnd();
+</script>
