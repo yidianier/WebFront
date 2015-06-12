@@ -20,6 +20,8 @@
 		<div class="shake-tips">找出你身边的英语学校</div>
 		<img class="shake-cloud" src="image/shake_cloud.png" />
 		<div id="hidden-map"></div>
+		<audio id="shake-audio" src="media/shake.mp3"></audio>
+		<audio id="shake-audio-result" src="media/shake_result.mp3"></audio>
 	</div>
 </body>
 </html>
@@ -42,10 +44,21 @@
             if (Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed) {
                 //摇一摇结束后
                 if ( allowShake ) {
-                    //allowShake = false;
-    //              audio.play();
-					isShake = true;
-                    getLocation();
+                    //allowShake = true;
+	
+					setTimeout(function() {
+						$("#shake-audio").trigger("play");
+						$("#shake-phone").addClass("shake-phone-animation");						
+					}, 500);
+					
+					setTimeout(function() {						
+					$("#shake-audio-result").trigger("play");
+					}, 1800);
+					
+					setTimeout(function() {						
+						isShake = true;
+						getLocation();
+					}, 2800);
                 };
             };
             lastX = x;

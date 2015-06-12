@@ -69,14 +69,6 @@ body {
 	animation: shake-hands .4s ease;
 	-webkit-animation: shake-hands .4s ease;
 }
-.shake-phone:hover {
-	animation: shake-hands .4s ease;
-	-webkit-animation: shake-hands .4s ease;	
-	animation-play-state: running;
-	-webkit-animation-play-state: running; /* Safari and Chrome */
-	animation-iteration-count: infinite;
-	-webkit-animation-iteration-count: infinite;
-}
 .shake-text {
 	width: 100%;
 	height: auto;
@@ -126,9 +118,13 @@ body {
 }
 .map-info-address,
 .link-address,
-.link-distance {
+.link-distance,
+.link-address-hwj {
 	font-size: 1em;
 	color: #535353;
+}
+.link-address-hwj {
+	margin-top: 26%;
 }
 .link-distance {
 }
@@ -208,6 +204,9 @@ body {
 	display: block;
 	font-size: 14px;
 }
+.map-info-name {
+	font-size: 16px;
+}
 
 .shake-map-link {
 	width: 100%;
@@ -238,13 +237,16 @@ body {
 /* myshake nav and return */
 .shake-return-map,
 .shake-return-choice {
+	width: 100%;
+	height: auto;
+}
+.shake-return {
 	position: fixed;
 	top: 6%;
 	left: 8%;
 	width: 74px;
 	height: 74px;
 	z-index: 6;
-	background: url(../image/back_ico.png) no-repeat;
 
 	/*ie6*/
 	_position:absolute;
@@ -253,15 +255,23 @@ body {
 .shake-nav {
 	position: fixed;
 	bottom: 25%;
-	left: 70%;
+	right: 8%;
 	width: 74px;
 	height: 74px;
 	z-index: 6;
-	background: url(../image/nav.png) no-repeat;
 
 	/*ie6*/
 	_position:absolute;
 	_bottom:auto;
+}
+.shake-nav-icon {
+	width: 100%;
+	height: auto;
+}
+
+#longitude,
+#latitude {
+	display: hidden;
 }
 
 /* -- css animation */
@@ -295,7 +305,31 @@ body {
 
 @-webkit-keyframes shake-hands /* Safari and Chrome */
 {
-
+	0% {
+		transform: rotate(0deg);
+		-ms-transform: rotate(0deg); /* IE 9 */
+		-webkit-transform: rotate(0deg); /* Safari and Chrome */
+	}
+	25% {
+		transform: rotate(-15deg);
+		-ms-transform: rotate(-15deg); /* IE 9 */
+		-webkit-transform: rotate(-15deg); /* Safari and Chrome */
+	}
+	50% {
+		transform: rotate(0deg);
+		-ms-transform: rotate(0deg); /* IE 9 */
+		-webkit-transform: rotate(0deg); /* Safari and Chrome */
+	}
+	75% {
+		transform: rotate(-15deg);
+		-ms-transform: rotate(-15deg); /* IE 9 */
+		-webkit-transform: rotate(-15deg); /* Safari and Chrome */
+	}
+	100% {
+		transform: rotate(0deg);
+		-ms-transform: rotate(0deg); /* IE 9 */
+		-webkit-transform: rotate(0deg); /* Safari and Chrome */
+	}
 }
 /* css animation -- */
 
@@ -310,6 +344,15 @@ body {
 	.shake-list { margin-top: 15px; }
 	.shake-tag-back { width: 90%; }
 	.shake-link-info { margin-top: 5px; left: 36%; line-height: 21px; font-size: 10px; }
+
+	.shake-nav { right: 0px; bottom: 28%; }
+	.shake-nav-icon { width: 50%; height: 50%; }
+	.shake-return-choice { width: 50%; height: 50%; }
+	.shake-return { left: 0px; top: 30px; }
+	.shake-return-map { width: 50%; height: 50%; }
+}
+@media screen and (max-width: 320px) and (max-height: 480px) {
+	.shake-nav { bottom: 35%; }
 }
 @media screen and (max-width: 414px) and (min-width: 321px) {
 	.shake-phone { width: 75%; }
@@ -321,6 +364,12 @@ body {
 	.shake-list { margin-top: 15px; }
 	.shake-tag-back { width: 90%; }
 	.shake-link-info { margin-top: 7px; left: 36%; line-height: 24px; font-size: 10px; }
+
+	.shake-nav { right: 0px; }
+	.shake-nav-icon { width: 50%; height: 50%; }
+	.shake-return-choice { width: 50%; height: 50%; }
+	.shake-return { left: 0px; top: 30px; }
+	.shake-return-map { width: 50%; height: 50%; }
 }
 @media screen and (max-width: 480px) and (min-width: 414px) {
 	.shake-phone { width: 77%; }
@@ -332,6 +381,12 @@ body {
 	.shake-list { margin-top: 15px; }
 	.shake-tag-back { width: 90%; }
 	.shake-link-info { margin-top: 6px; left: 36%; line-height: 26px; font-size: 10px; }
+
+	.shake-nav { right: 0px; }
+	.shake-nav-icon { width: 50%; height: 50%; }
+	.shake-return-choice { width: 50%; height: 50%; }
+	.shake-return { left: 0px; top: 30px; }
+	.shake-return-map { width: 50%; height: 50%; }
 }
 @media screen and (max-width: 640px) and (min-width: 480px) {
 	.shake-phone { width: 80%; }
@@ -343,6 +398,12 @@ body {
 	.shake-list { margin-top: 15px; }
 	.shake-tag-back { width: 90%; }
 	.shake-link-info { margin-top: 2px; left: 36%; line-height: 26px; font-size: 6px; }
+
+	.shake-nav { right: 0px; }
+	.shake-nav-icon { width: 50%; height: 50%; }
+	.shake-return-choice { width: 50%; height: 50%; }
+	.shake-return { left: 0px; top: 30px; }
+	.shake-return-map { width: 50%; height: 50%; }
 }
 @media screen and (min-width: 960px) and (min-width: 640px) {
 	.shake-phone { width: 494px; height: 664px; margin: auto; }

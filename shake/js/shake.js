@@ -2,6 +2,8 @@
 /* global param */
 var allowShake = true;
 
+var isNav = true;
+
 var isShake = false;
 var isShakeChoiceWeb = false;
 var isShakeChoiceKxd = false;
@@ -31,8 +33,9 @@ function subString( str, len ) {
 var changeOneDecimal = function( floatvar ) {
 	var f_x = parseFloat(floatvar);
 	if ( isNaN(f_x) ) {
-		alert('该对象不是数字，无法保留一位小数！');
-		return false;
+        f_x = 0;
+		//alert('该对象不是数字，无法保留一位小数！');
+		return "未知";
 	};
 	var f_x = Math.round(f_x*10)/10;
 	var s_x = f_x.toString();
@@ -88,35 +91,46 @@ var getAllInformation = function ( data ) {
                 //分类缓存内容
                 switch (dataCount[k].shopType) {
                     case '韦博国际英语':
-                        aGuojiyingyu.ShopType.push(dataCount[k].shopType);
-                        //alert("line 106 aGuojiyingyu.ShopType.push( dataCount[k].shopType ) =  "+aGuojiyingyu.ShopType);	//测试解析数据
-                        //alert("line 107 caches.guojiyingyu =   "+caches.guojiyingyu[0]);	//测试解析数据
-                        aGuojiyingyu.ShopName.push(dataCount[k].shopName);
-                        aGuojiyingyu.Address.push(dataCount[k].address);
-                        aGuojiyingyu.Phone.push(dataCount[k].phone);
-                        aGuojiyingyu.Url.push(dataCount[k].url);
-                        aGuojiyingyu.Position.push([dataCount[k].x, dataCount[k].y]);
-                        caches.guojiyingyu = aGuojiyingyu;
-                        //							alert("100"+caches.guojiyingyu.ShopName);
-                        break;
+                        if (dataCount[k].x == '' || dataCount[k].y == '') {
+                            continue;
+                        } else {
+                            aGuojiyingyu.ShopType.push(dataCount[k].shopType);
+                            //alert("line 106 aGuojiyingyu.ShopType.push( dataCount[k].shopType ) =  "+aGuojiyingyu.ShopType);  //测试解析数据
+                            //alert("line 107 caches.guojiyingyu =   "+caches.guojiyingyu[0]);  //测试解析数据
+                            aGuojiyingyu.ShopName.push(dataCount[k].shopName);
+                            aGuojiyingyu.Address.push(dataCount[k].address);
+                            aGuojiyingyu.Phone.push(dataCount[k].phone);
+                            aGuojiyingyu.Url.push(dataCount[k].url);
+                            aGuojiyingyu.Position.push([dataCount[k].x, dataCount[k].y]);
+                            caches.guojiyingyu = aGuojiyingyu;
+                            break;
+                        }                        
                     case '韦博开心豆少儿英语':
-                        aKaixindou.ShopType.push(dataCount[k].shopType);
-                        aKaixindou.ShopName.push(dataCount[k].shopName);
-                        aKaixindou.Address.push(dataCount[k].address);
-                        aKaixindou.Phone.push(dataCount[k].phone);
-                        aKaixindou.Url.push(dataCount[k].url);
-                        aKaixindou.Position.push([dataCount[k].x, dataCount[k].y]);
-                        caches.kaixindou = aGuojiyingyu;
-                        break;
+                        if (dataCount[k].x == '' || dataCount[k].y == '') {
+                            continue;
+                        } else {
+                            aKaixindou.ShopType.push(dataCount[k].shopType);
+                            aKaixindou.ShopName.push(dataCount[k].shopName);
+                            aKaixindou.Address.push(dataCount[k].address);
+                            aKaixindou.Phone.push(dataCount[k].phone);
+                            aKaixindou.Url.push(dataCount[k].url);
+                            aKaixindou.Position.push([dataCount[k].x, dataCount[k].y]);
+                            caches.kaixindou = aKaixindou;
+                            break;
+                        }
                     case '韦博好外教':
-                        aHaowaijiao.ShopType.push(dataCount[k].shopType);
-                        aHaowaijiao.ShopName.push(dataCount[k].shopName);
-                        aHaowaijiao.Address.push(dataCount[k].address);
-                        aHaowaijiao.Phone.push(dataCount[k].phone);
-                        aHaowaijiao.Url.push(dataCount[k].url);
-                        aHaowaijiao.Position.push([dataCount[k].x, dataCount[k].y]);
-                        caches.haowaijiao = aHaowaijiao;
-                        break;
+                        if (dataCount[k].x == '' || dataCount[k].y == '') {
+                            continue;
+                        } else {
+                            aHaowaijiao.ShopType.push(dataCount[k].shopType);
+                            aHaowaijiao.ShopName.push(dataCount[k].shopName);
+                            aHaowaijiao.Address.push(dataCount[k].address);
+                            aHaowaijiao.Phone.push(dataCount[k].phone);
+                            aHaowaijiao.Url.push(dataCount[k].url);
+                            aHaowaijiao.Position.push([dataCount[k].x, dataCount[k].y]);
+                            caches.haowaijiao = aHaowaijiao;
+                            break;
+                        }
                     default: break;
                 };
             };
@@ -162,7 +176,7 @@ function getNearInformation( cPosition, callBack ) {
     //alert("line 178 开始计算距离 guojiyingyu_position");
     for (var i = 0, iLen = guojiyingyu_position.length; i < iLen; i++) {
         //			var point = new BMap.Point(guojiyingyu_position[i][0], guojiyingyu_position[i][1]);
-        var iTmpDistance = getDistance(guojiyingyu_position[i], cPosition);
+        var iTmpDistance = getDistance(cPosition, guojiyingyu_position[i]);
         //alert("当前位置和"+ aGuojiyingyu.ShopName[i]+"的距离  = "+iTmpDistance);
         guojiyingyu_distance.push(iTmpDistance);
         guojiyingyu_oldDistance.push(iTmpDistance);
@@ -173,7 +187,7 @@ function getNearInformation( cPosition, callBack ) {
     //alert("----------guojiyingyu_distence.sort---------------");
 
     //遍历 -- 开心豆少儿英语 位置，计算附近距离 --
-    var aKaixindou = this.caches.kaixindou;
+    var aKaixindou = caches.kaixindou;
     var kaixindou_position = aKaixindou.Position;
     var kaixindou_distance = [];
     var kaixindou_oldDistance = [];
@@ -197,7 +211,7 @@ function getNearInformation( cPosition, callBack ) {
     //alert("----------kaixindou_distance.sort---------------");
 
     //遍历 -- 韦博好外教 位置，计算附近距离 --
-    var aHaowaijiao = this.caches.haowaijiao;
+    var aHaowaijiao = caches.haowaijiao;
     var haowaijiao_position = aHaowaijiao.Position;
     var haowaijiao_distance = [];
     var haowaijiao_oldDistance = [];
@@ -225,13 +239,13 @@ function getNearInformation( cPosition, callBack ) {
         //附近国际英语
         for (var j = 0, jLen = guojiyingyu_oldDistance.length; j < jLen; j++) {
             if (guojiyingyu_distance[i] == guojiyingyu_oldDistance[j]) {
-                aGuojiyingyu.nearShopType.push(aGuojiyingyu.ShopType[jLen-1]);
-                aGuojiyingyu.nearShopName.push(aGuojiyingyu.ShopName[jLen-1]);
-                aGuojiyingyu.nearAddress.push(aGuojiyingyu.Address[jLen-1]);
-                aGuojiyingyu.nearPhone.push(aGuojiyingyu.Phone[jLen-1]);
-                aGuojiyingyu.nearUrl.push(aGuojiyingyu.Url[jLen-1]);
-                aGuojiyingyu.nearPosition.push(guojiyingyu_position[jLen-1]);
-                aGuojiyingyu.nearDistance.push(guojiyingyu_oldDistance[jLen-1]);
+                aGuojiyingyu.nearShopType.push(aGuojiyingyu.ShopType[j]);
+                aGuojiyingyu.nearShopName.push(aGuojiyingyu.ShopName[j]);
+                aGuojiyingyu.nearAddress.push(aGuojiyingyu.Address[j]);
+                aGuojiyingyu.nearPhone.push(aGuojiyingyu.Phone[j]);
+                aGuojiyingyu.nearUrl.push(aGuojiyingyu.Url[j]);
+                aGuojiyingyu.nearPosition.push(guojiyingyu_position[j]);
+                aGuojiyingyu.nearDistance.push(guojiyingyu_oldDistance[j]);
                 aGuojiyingyu.nearIcon.push('guojiyingyu');
                 break;
             };
@@ -317,23 +331,30 @@ var getUrlParam = function( param ) {
     if (r != null) return unescape(r[2]); return null;
 };
 
-var updateMap = function( aPosition ) {
-    var web_map = new BMap.Map("webmap");
-alert(aPosition[0]);
+var updateMap = function( aPosition, cPosition ) {
+
+    var cLongitude = document.getElementById("longitude");
+    var cLatitude = document.getElementById("latitude");
+
+    cLongitude.innerHTML = cPosition[0];
+    cLatitude.innerHTML = cPosition[1];
+
+    //alert(aPosition);
     //清除之前所有标注 
     var allOverlay = web_map.getOverlays();
     for (var i = 0; i < allOverlay.length; i++){
         web_map.removeOverlay(allOverlay[i]);
     };
-    
+
     //创建标注
     var mapPoint = new BMap.Point(aPosition[0], aPosition[1]);
     var marker = new BMap.Marker( mapPoint );
         
     web_map.addOverlay( marker );
     //地图显示
-    web_map.centerAndZoom(mapPoint, 15); 
+    web_map.centerAndZoom(mapPoint, 15);
     web_map.panTo( mapPoint );
+    web_map.panBy(0, -200);
 };
 
 
@@ -353,14 +374,14 @@ var shakeEnd = function() {
     getNearInformation(cPosition, function(){
     });
 
-    alert(guoji.nearShopName[0]);
+    //alert(guoji.nearShopName[0]);
 
     var web_eng = document.getElementById("web-eng");
     var web_eng_address = document.getElementById("web-eng-address");
     var web_eng_distance = document.getElementById("web-eng-distance");
 
     web_eng.innerHTML = subString(guoji.nearShopName[0], 18);
-    web_eng_address.innerHTML = subString(guoji.nearAddress[0], 12);
+    web_eng_address.innerHTML = subString(guoji.nearAddress[0], 25);
     web_eng_distance.innerHTML = getKM(guoji.nearDistance[0]);
 
     //kxd
@@ -371,7 +392,7 @@ var shakeEnd = function() {
     var kxd_eng_distance = document.getElementById("kxd-eng-distance");
 
     kxd_eng.innerHTML = subString(kxd.nearShopName[0], 18);
-    kxd_eng_address.innerHTML = subString(kxd.nearAddress[0], 12);
+    kxd_eng_address.innerHTML = subString(kxd.nearAddress[0], 25);
     kxd_eng_distance.innerHTML = getKM(kxd.nearDistance[0]);
 };
 
@@ -401,7 +422,7 @@ function getCurrentLocation(p) {
         //alert(22);
         isShakeChoiceKxd = false;
         getNearInformation(cPosition, function(){
-            window.location.href = "shake_map.html?kxdParam=kx&longitude="+longitude+"&latitude="+latitude;
+            window.location.href = "shake_map.html?kxdParam=kxd&longitude="+longitude+"&latitude="+latitude;
         });
     }
     if (isShakeMap) {
@@ -445,7 +466,7 @@ $(function() {
     var kxdParam=getUrlParam("kxdParam");//这里获取fileData的值
 
     if (webParam){
-        //web     
+        //web
         var guoji = caches.guojiyingyu;
 
         getNearInformation(cPosition, function(){
@@ -456,13 +477,12 @@ $(function() {
         var dis_number = document.getElementById("dis-number");
 
         map_info_name.innerHTML = subString(guoji.nearShopName[0], 18);
-        map_info_address.innerHTML = subString(guoji.nearAddress[0], 12);
+        map_info_address.innerHTML = subString(guoji.nearAddress[0], 25);
         dis_number.innerHTML = getKM(guoji.nearDistance[0]);
 
         //updateMap(cPosition);
-        updateMap(guoji.Position);
-    }
-    if (kxdParam){
+        updateMap(guoji.nearPosition[0], cPosition);
+    } else if (kxdParam){
         //kxd
         var kxd = caches.kaixindou;
 
@@ -474,27 +494,62 @@ $(function() {
         var dis_number = document.getElementById("dis-number");
 
         map_info_name.innerHTML = subString(kxd.nearShopName[0], 18);
-        map_info_address.innerHTML = subString(kxd.nearAddress[0], 12);
+        map_info_address.innerHTML = subString(kxd.nearAddress[0], 25);
         dis_number.innerHTML = getKM(kxd.nearDistance[0]);
 
         //updateMap(cPosition);
-        updateMap(kxd.Position);
+        updateMap(kxd.nearPosition[0], cPosition);
     }
 });
 /*-----------nav return-------------*/
 $(function() {
     $(".shake-nav").click(function() {
-        
+        if (isNav) {
+            isNav = false;
+
+        cLongitude = $("#longitude").html();
+        cLatitude = $("#latitude").html();
+
+        var cPosition = [];
+        cPosition.push(cLongitude);
+        cPosition.push(cLatitude);
+
+        var webParam=getUrlParam("webParam");//这里获取fileData的值
+        var kxdParam=getUrlParam("kxdParam");//这里获取fileData的值
+
+        if (webParam){
+        //web     
+            var guoji = caches.guojiyingyu;
+            getNearInformation(cPosition, function(){
+            });
+
+            var p2 = new BMap.Point(guoji.nearPosition[0][0], guoji.nearPosition[0][1]);
+        } else if (kxdParam){
+        //kxd     
+            var kxd = caches.kaixindou;
+            getNearInformation(cPosition, function(){
+            });
+
+            var p2 = new BMap.Point(kxd.nearPosition[0][0], kxd.nearPosition[0][1]);
+        }
+
+        var p1 = new BMap.Point(cLongitude, cLatitude);
+        //清除之前所有标注 
+        var allOverlay = web_map.getOverlays();
+        for (var i = 0; i < allOverlay.length; i++){
+            web_map.removeOverlay(allOverlay[i]);
+        };
+
+        web_map.panBy(0, -350);
+        var driving = new BMap.DrivingRoute(web_map, {renderOptions:{map: web_map, autoViewport: true}});
+        driving.search(p1, p2);
+    }
     });
     $(".shake-return-choice").click(function() {
-        alert(1);
-        isShake = true;
-        getLocation();
         window.location.href = "shake.html";
     });
     $(".shake-return-map").click(function() {
-        alert(2);
-        allowShake = true;
-        window.location.href = "shake_choice.html";
+        isShake = true;
+        getLocation();
     });
 });

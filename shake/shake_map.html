@@ -18,7 +18,7 @@
 	<div id="webmap"></div>
 	<div class="shake-map">
 		<div class="shake-map-info clearfix">
-			<div class="shake-map-info-l">距离&nbsp;<span class="dis-number" id="dis-number">0.2</span>&nbsp;公里</div>
+			<div class="shake-map-info-l"><span class="dis-number" id="dis-number">0.2</span>&nbsp;公里</div>
 			<span class="map-info-line"></span>
 			<div class="shake-map-info-r">				
 				<div class="map-info-name" id="map-info-name">韦博国际英语</div>
@@ -26,23 +26,35 @@
 			</div>
 		</div>
 		<div class="shake-map-link clearfix">
-			<div class="shake-map-link-item">
-				<img class="service-icon" src="image/service_site.png" />
-				<div class="service-text">站点详情</div>
-			</div>
-			<div class="shake-map-link-item">
-				<img class="service-icon" src="image/service_phone.png" />
-				<div class="service-text">客服电话</div>
-			</div>
-			<div class="shake-map-link-item">
-				<img class="service-icon" src="image/service_online.png" />
-				<div class="service-text">在线客服</div>
-			</div>
+			<a href="#">
+				<div class="shake-map-link-item">
+					<img class="service-icon" src="image/service_site.png" />
+					<div class="service-text">站点详情</div>
+				</div>
+			</a>
+			<a href="tel://15290819890">
+				<div class="shake-map-link-item">
+					<img class="service-icon" src="image/service_phone.png" />
+					<div class="service-text">客服电话</div>
+				</div>
+			</a>
+			<a href="mqqwpa://im/chat?chat_type=wpa&uin=800015331&version=1&src_type=web&web_src=oicqzone.com">
+				<div class="shake-map-link-item">
+					<img class="service-icon" src="image/service_online.png" />
+					<div class="service-text">在线客服</div>
+				</div>
+			</a>
 		</div>
 	</div>
-	<div class="shake-return-map"></div>
-	<div class="shake-nav"></div>
+	<div class="shake-return">			
+		<img class="shake-return-map" src="image/back_ico.png" />	
+	</div>
+	<div class="shake-nav">		
+		<img class="shake-nav-icon" src="image/nav.png" />
+	</div>
 	<div id="hidden-map"></div>
+	<div id="longitude"></div>
+	<div id="latitude"></div>
 </div>
 </body>
 </html>
@@ -50,4 +62,6 @@
 	var hidden_map = new BMap.Map("hidden-map");
 	var point = new BMap.Point(121,31);
 	hidden_map.centerAndZoom(point,12);
+	
+	var web_map = new BMap.Map("webmap");
 </script>
